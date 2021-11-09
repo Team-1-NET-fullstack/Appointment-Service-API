@@ -59,19 +59,22 @@ namespace AppointmentScheduler.Service.API.DAL.Implementation
             var appointmentsList = _context.Appointments
                 .Select(e => new AppointmentModel
                 {
-                    AppointmentId = e.AppointmentId,
-                    PatientId = e.PatientId,
-                    PhysicianId = e.PhysicianId,
-                    Reason = e.Reason,
-                    Status = e.Status,
-                    IsActive = e.IsActive,
-                    CreatedBy = e.CreatedBy,
-                    CreatedDate = e.CreatedDate,
-                    ModifiedBy = e.ModifiedBy,
-                    ModifiedDate = e.ModifiedDate,
-                    PhysicianName = _context.Users.Where(a => a.UserId == e.PhysicianId).Select(e => e.FirstName + " " + e.LastName).FirstOrDefault(),
-                    PatientName = _context.Users.Where(a => a.UserId == e.PatientId).Select(e => e.FirstName + " " + e.LastName).FirstOrDefault(),
-                    EmployeeId = _context.Users.Where(a => a.UserId == e.PhysicianId).Select(e => e.EmployeeId).FirstOrDefault(),
+                    appointmentId = e.AppointmentId,
+                    patientId = e.PatientId,
+                    physicianId = e.PhysicianId,
+                    employeeId = e.EmployeeId, // _context.Users.Where(a => a.UserId == e.PhysicianId).Select(e => e.EmployeeId).FirstOrDefault(),
+                    title = e.Title,
+                    startTime = e.StartTime,
+                    endTime = e.EndTime,
+                    status = e.Status,
+                    reason = e.Reason,
+                    isActive = e.IsActive,
+                    createdBy = e.CreatedBy,
+                    modifiedBy = e.ModifiedBy,
+                    createdDate = e.CreatedDate,
+                    modifiedDate = e.ModifiedDate,
+                    physicianName = _context.Users.Where(a => a.UserId == e.PhysicianId).Select(e => e.FirstName + " " + e.LastName).FirstOrDefault(),
+                    patientName = _context.Users.Where(a => a.UserId == e.PatientId).Select(e => e.FirstName + " " + e.LastName).FirstOrDefault(),
                 }).ToList();
 
             return appointmentsList;
@@ -110,20 +113,20 @@ namespace AppointmentScheduler.Service.API.DAL.Implementation
             var appointmentData = _context.Appointments
                 .Select(e => new AppointmentModel
                 {
-                    AppointmentId = e.AppointmentId,
-                    PatientId = e.PatientId,
-                    PhysicianId = e.PhysicianId,
-                    Reason = e.Reason,
-                    Status = e.Status,
-                    IsActive = e.IsActive,
-                    CreatedBy = e.CreatedBy,
-                    CreatedDate = e.CreatedDate,
-                    ModifiedBy = e.ModifiedBy,
-                    ModifiedDate = e.ModifiedDate,
-                    PhysicianName = _context.Users.Where(a => a.UserId == e.PhysicianId).Select(e => e.FirstName + " " + e.LastName).FirstOrDefault(),
-                    PatientName = _context.Users.Where(a => a.UserId == e.PatientId).Select(e => e.FirstName + " " + e.LastName).FirstOrDefault(),
-                    EmployeeId = _context.Users.Where(a => a.UserId == e.PhysicianId).Select(e => e.EmployeeId).FirstOrDefault(),
-                }).Where(s => s.AppointmentId == Id).FirstOrDefault();
+                    appointmentId = e.AppointmentId,
+                    patientId = e.PatientId,
+                    physicianId = e.PhysicianId,
+                    reason = e.Reason,
+                    status = e.Status,
+                    isActive = e.IsActive,
+                    createdBy = e.CreatedBy,
+                    createdDate = e.CreatedDate,
+                    modifiedBy = e.ModifiedBy,
+                    modifiedDate = e.ModifiedDate,
+                    physicianName = _context.Users.Where(a => a.UserId == e.PhysicianId).Select(e => e.FirstName + " " + e.LastName).FirstOrDefault(),
+                    patientName = _context.Users.Where(a => a.UserId == e.PatientId).Select(e => e.FirstName + " " + e.LastName).FirstOrDefault(),
+                    employeeId = _context.Users.Where(a => a.UserId == e.PhysicianId).Select(e => e.EmployeeId).FirstOrDefault(),
+                }).Where(s => s.appointmentId == Id).FirstOrDefault();
 
             return appointmentData;
         }

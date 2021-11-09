@@ -8,21 +8,21 @@ namespace AppointmentScheduler.Service.API.Models
     public class AppointmentModel
     {
 
-        public int AppointmentId { get; set; }
-        public int PatientId { get; set; }
-        public int PhysicianId { get; set; }
-        public int? EmployeeId { get; set; }
-        public string Title { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
-        public string Status { get; set; }
-        public string Reason { get; set; }
-        public bool? IsActive { get; set; }
-        public int? CreatedBy { get; set; }
-        public int? ModifiedBy { get; set; }
-        public DateTime? CreatedDate { get; set; }
-        public DateTime? ModifiedDate { get; set; }
-        public string PhysicianName { get; set; }
-        public string PatientName { get; set; }
+        public int appointmentId { get; set; }
+        public int patientId { get; set; }
+        public int physicianId { get; set; }
+        public int? employeeId { get; set; }
+        public string title { get; set; }
+        public DateTime startTime { get; set; }
+        public DateTime endTime { get; set; }
+        public string status { get; set; }
+        public string reason { get; set; }
+        public bool? isActive { get; set; }
+        public int? createdBy { get; set; }
+        public int? modifiedBy { get; set; }
+        public DateTime? createdDate { get; set; }
+        public DateTime? modifiedDate { get; set; }
+        public string physicianName { get; set; }
+        public string patientName { get; set; }
     }
 }
