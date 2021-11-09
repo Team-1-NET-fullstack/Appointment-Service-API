@@ -33,7 +33,6 @@ namespace AppointmentScheduler.Service.API.Entities
         public virtual DbSet<Procedure> Procedures { get; set; }
         public virtual DbSet<ProcedureMaster> ProcedureMasters { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<TimeSlot> TimeSlots { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -52,11 +51,9 @@ namespace AppointmentScheduler.Service.API.Entities
             modelBuilder.Entity<Allergy>(entity =>
             {
                 entity.HasKey(e => e.PatientAllergyId)
-                    .HasName("PK__Allergy__2844413D8D939F9C");
+                    .HasName("PK__Allergy__2844413D30C512C2");
 
                 entity.ToTable("Allergy");
-
-                entity.Property(e => e.PatientAllergyId).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
@@ -66,45 +63,48 @@ namespace AppointmentScheduler.Service.API.Entities
             modelBuilder.Entity<AllergyMaster>(entity =>
             {
                 entity.HasKey(e => e.AllergyMastersId)
-                    .HasName("PK__AllergyM__915CEE743E43A4D0");
-
-                entity.Property(e => e.AllergyMastersId).ValueGeneratedNever();
-
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+                    .HasName("PK__AllergyM__915CEE74C1F7F9E8");
 
                 entity.Property(e => e.Description)
                     .IsRequired()
                     .HasMaxLength(200)
                     .IsUnicode(false);
-
-                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<Appointment>(entity =>
             {
                 entity.ToTable("Appointment");
 
-                entity.Property(e => e.AppointmentId).ValueGeneratedNever();
-
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.EndTime).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.Reason)
                     .IsRequired()
-                    .HasMaxLength(500)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+                entity.Property(e => e.StartTime).HasColumnType("datetime");
+
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Diagnosis>(entity =>
             {
                 entity.ToTable("Diagnosis");
 
-                entity.Property(e => e.DiagnosisId).ValueGeneratedNever();
-
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
-                entity.Property(e => e.DignosisDescription)
+                entity.Property(e => e.DiagnosisDescription)
                     .IsRequired()
                     .HasMaxLength(300)
                     .IsUnicode(false);
@@ -115,11 +115,7 @@ namespace AppointmentScheduler.Service.API.Entities
             modelBuilder.Entity<DiagnosisMaster>(entity =>
             {
                 entity.HasKey(e => e.DiagnosisMastersId)
-                    .HasName("PK__Diagnosi__06BCD58CDEBB2FE4");
-
-                entity.Property(e => e.DiagnosisMastersId).ValueGeneratedNever();
-
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+                    .HasName("PK__Diagnosi__06BCD58C5D2F9262");
 
                 entity.Property(e => e.Description)
                     .IsRequired()
@@ -130,14 +126,10 @@ namespace AppointmentScheduler.Service.API.Entities
                     .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false);
-
-                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<Medication>(entity =>
             {
-                entity.Property(e => e.MedicationId).ValueGeneratedNever();
-
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.MedicationDescription)
@@ -150,11 +142,7 @@ namespace AppointmentScheduler.Service.API.Entities
             modelBuilder.Entity<MedicationsMaster>(entity =>
             {
                 entity.HasKey(e => e.MedicationMastersId)
-                    .HasName("PK__Medicati__867661AEF29793E7");
-
-                entity.Property(e => e.MedicationMastersId).ValueGeneratedNever();
-
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+                    .HasName("PK__Medicati__867661AE161F5529");
 
                 entity.Property(e => e.Description)
                     .IsRequired()
@@ -170,14 +158,10 @@ namespace AppointmentScheduler.Service.API.Entities
                     .IsRequired()
                     .HasMaxLength(30)
                     .IsUnicode(false);
-
-                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<Note>(entity =>
             {
-                entity.Property(e => e.NoteId).ValueGeneratedNever();
-
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.Message).IsRequired();
@@ -187,15 +171,28 @@ namespace AppointmentScheduler.Service.API.Entities
 
             modelBuilder.Entity<Patient>(entity =>
             {
-                entity.Property(e => e.PatientId).ValueGeneratedNever();
-
                 entity.Property(e => e.Address)
                     .IsRequired()
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ContactNumber)
+                    .IsRequired()
+                    .HasMaxLength(10)
                     .IsUnicode(false);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.Dob).HasColumnType("date");
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.EmergencyContact)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.FirstName)
                     .IsRequired()
@@ -206,8 +203,6 @@ namespace AppointmentScheduler.Service.API.Entities
                     .HasMaxLength(1)
                     .IsUnicode(false)
                     .IsFixedLength(true);
-
-                entity.Property(e => e.InsertDate).HasColumnType("datetime");
 
                 entity.Property(e => e.Languages)
                     .IsRequired()
@@ -239,9 +234,7 @@ namespace AppointmentScheduler.Service.API.Entities
             modelBuilder.Entity<PatientMedicalDetail>(entity =>
             {
                 entity.HasKey(e => e.PatientMedicalDetailsId)
-                    .HasName("PK__PatientM__CBA3DC5390E954ED");
-
-                entity.Property(e => e.PatientMedicalDetailsId).ValueGeneratedNever();
+                    .HasName("PK__PatientM__CBA3DC532C814FA3");
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
@@ -252,8 +245,6 @@ namespace AppointmentScheduler.Service.API.Entities
 
             modelBuilder.Entity<PatientVisit>(entity =>
             {
-                entity.Property(e => e.PatientVisitId).ValueGeneratedNever();
-
                 entity.Property(e => e.AllergyDescription)
                     .IsRequired()
                     .HasMaxLength(300)
@@ -276,64 +267,27 @@ namespace AppointmentScheduler.Service.API.Entities
                     .HasMaxLength(300)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Reason)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
-
-                entity.Property(e => e.VisitDate).HasColumnType("date");
-
-                entity.HasOne(d => d.CreatedByNavigation)
-                    .WithMany(p => p.PatientVisitCreatedByNavigations)
-                    .HasForeignKey(d => d.CreatedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PVCreatedBy");
-
-                entity.HasOne(d => d.Patient)
-                    .WithMany(p => p.PatientVisits)
-                    .HasForeignKey(d => d.PatientId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PVPatientId");
-
-                entity.HasOne(d => d.Physician)
-                    .WithMany(p => p.PatientVisitPhysicians)
-                    .HasForeignKey(d => d.PhysicianId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PatientsVisits");
-
-                entity.HasOne(d => d.UpdatedByNavigation)
-                    .WithMany(p => p.PatientVisitUpdatedByNavigations)
-                    .HasForeignKey(d => d.UpdatedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PVUpdatedBy");
             });
 
             modelBuilder.Entity<PatientVital>(entity =>
             {
-                entity.Property(e => e.PatientVitalId).ValueGeneratedNever();
-
                 entity.Property(e => e.BloodPressure)
                     .IsRequired()
                     .HasMaxLength(7);
-
-                entity.Property(e => e.RespirationRate).HasColumnName("Respiration Rate");
-
-                entity.HasOne(d => d.PatientVisit)
-                    .WithMany(p => p.PatientVitals)
-                    .HasForeignKey(d => d.PatientVisitId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PatientsVitals");
             });
 
             modelBuilder.Entity<PatientsNominee>(entity =>
             {
-                entity.HasKey(e => e.NomineeId);
+                entity.HasKey(e => e.NomineeId)
+                    .HasName("PK__Patients__40B5EA162D673CB3");
 
                 entity.ToTable("PatientsNominee");
 
-                entity.Property(e => e.NomineeId).ValueGeneratedNever();
+                entity.Property(e => e.ContactNumber)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
@@ -345,13 +299,10 @@ namespace AppointmentScheduler.Service.API.Entities
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.LastName)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.InsertDate).HasColumnType("datetime");
 
                 entity.Property(e => e.NomineeAddress)
                     .IsRequired()
-                    .HasMaxLength(60)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Relationship)
@@ -359,13 +310,16 @@ namespace AppointmentScheduler.Service.API.Entities
                     .HasMaxLength(40)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasMaxLength(5)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<Procedure>(entity =>
             {
-                entity.Property(e => e.ProcedureId).ValueGeneratedNever();
-
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.ProcedureDescription)
@@ -378,11 +332,7 @@ namespace AppointmentScheduler.Service.API.Entities
             modelBuilder.Entity<ProcedureMaster>(entity =>
             {
                 entity.HasKey(e => e.ProcedureMastersId)
-                    .HasName("PK__Procedur__079352C26B33B587");
-
-                entity.Property(e => e.ProcedureMastersId).ValueGeneratedNever();
-
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+                    .HasName("PK__Procedur__079352C26E90FD3A");
 
                 entity.Property(e => e.Description)
                     .IsRequired()
@@ -393,33 +343,20 @@ namespace AppointmentScheduler.Service.API.Entities
                     .IsRequired()
                     .HasMaxLength(30)
                     .IsUnicode(false);
-
-                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<Role>(entity =>
             {
-                entity.Property(e => e.RoleId).ValueGeneratedNever();
-
                 entity.Property(e => e.RoleName)
                     .IsRequired()
                     .HasMaxLength(10)
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<TimeSlot>(entity =>
-            {
-                entity.Property(e => e.TimeSlotId).ValueGeneratedNever();
-
-                entity.Property(e => e.Slots).HasColumnType("datetime");
-            });
-
             modelBuilder.Entity<User>(entity =>
             {
-                entity.HasIndex(e => e.EmailId, "UQ__Users__7ED91AEEB9851735")
+                entity.HasIndex(e => e.EmailId, "UQ__Users__7ED91AEEDBCE722B")
                     .IsUnique();
-
-                entity.Property(e => e.UserId).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
@@ -458,14 +395,6 @@ namespace AppointmentScheduler.Service.API.Entities
                     .IsUnicode(false);
 
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
-
-                entity.Property(e => e.WrongAttempts).HasColumnName("wrongAttempts");
-
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.Users)
-                    .HasForeignKey(d => d.RoleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_URoleId");
             });
 
             OnModelCreatingPartial(modelBuilder);

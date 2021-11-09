@@ -15,6 +15,6 @@ namespace AppointmentScheduler.Service.API.Entities
         public int UpdatedBy { get; set; }
         public DateTime UpdatedDate { get; set; }
         public int PatientId { get; set; }
-        public string DignosisDescription { get; set; }
+        public string DiagnosisDescription { get; set; }
     }
 }

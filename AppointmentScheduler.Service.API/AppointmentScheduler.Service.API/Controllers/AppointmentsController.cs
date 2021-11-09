@@ -29,14 +29,44 @@ namespace AppointmentScheduler.Service.API.Controllers
         [Route("GetAllAppointments")]
         public Object GetAllAppointments()
         {
-            var allAppointmentsData = _appointmentSchedulerService.GetAllAppointments();
-            var jsonAllAppointmentsData = JsonConvert.SerializeObject(allAppointmentsData, Formatting.Indented,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                }
-            );
-            return jsonAllAppointmentsData;
+            try
+            {
+                var allAppointmentsData = _appointmentSchedulerService.GetAllAppointments();
+                var jsonAllAppointmentsData = JsonConvert.SerializeObject(allAppointmentsData, Formatting.Indented,
+                    new JsonSerializerSettings()
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    }
+                );
+                return jsonAllAppointmentsData;
+            }
+            catch (Exception exception)
+            {
+
+                return exception.Message;
+            }
+        }
+
+        [HttpGet]
+        [Route("GetAllUsers")]
+        public Object GetAllUsers(int roleId)
+        {
+            try
+            {
+                var allAppointmentsData = _appointmentSchedulerService.GetAllUsers(roleId);
+                var jsonAllAppointmentsData = JsonConvert.SerializeObject(allAppointmentsData, Formatting.Indented,
+                    new JsonSerializerSettings()
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    }
+                );
+                return jsonAllAppointmentsData;
+            }
+            catch (Exception exception)
+            {
+
+                return exception.Message;
+            }
         }
 
         [HttpPost]
@@ -45,8 +75,11 @@ namespace AppointmentScheduler.Service.API.Controllers
         {
             try
             {
-                var isCreated = await _appointmentSchedulerService.CreateAppointment(appointment);
-                return isCreated != null ? true : false;
+
+                return await _appointmentSchedulerService.CreateAppointment(appointment);
+
+                // var isCreated = await _appointmentSchedulerService.CreateAppointment(appointment);
+                // return isCreated != null;
             }
             catch (Exception exception)
             {
@@ -58,31 +91,43 @@ namespace AppointmentScheduler.Service.API.Controllers
         [Route("GetAppointmentByAppointmentId/{appointmentId}")]
         public Object GetAppointmentByAppointmentId(int appointmentId)
         {
-            var appointmentData = _appointmentSchedulerService.GetAppointmentByAppointmentId(appointmentId);
-            var json = JsonConvert.SerializeObject(appointmentData, Formatting.Indented,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                }
-            );
-            return json;
+            try
+            {
+                var appointmentData = _appointmentSchedulerService.GetAppointmentByAppointmentId(appointmentId);
+                var json = JsonConvert.SerializeObject(appointmentData, Formatting.Indented,
+                    new JsonSerializerSettings()
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    }
+                );
+                return json;
+            }
+            catch (Exception exception)
+            {
+                return exception.Message;
+            }
         }
 
         [HttpDelete]
         [Route("DeleteApointment/{appointmentId}")]
         public bool DeleteApointment(int appointmentId)
         {
-
-            return _appointmentSchedulerService.DeleteApointment(appointmentId);
-
-
+            try
+            {
+                return _appointmentSchedulerService.DeleteApointment(appointmentId);
+            }
+            catch (Exception exception)
+            {
+                // exception.Message;
+                throw;
+            }
         }
 
         [HttpPut]
-        [Route("AcceptAppointment/{appointmentId}")]
-        public bool AcceptAppointment(int appointmentId, Appointment oldAppointment)
+        [Route("AcceptAppointment")]
+        public bool AcceptAppointment(Appointment oldAppointment)
         {
-            var appointmentFromRepo = _appointmentSchedulerService.GetEntityByAppointmentId(appointmentId);
+            var appointmentFromRepo = _appointmentSchedulerService.GetEntityByAppointmentId(oldAppointment.AppointmentId);
 
             if (ModelState.IsValid)
             {
@@ -90,20 +135,21 @@ namespace AppointmentScheduler.Service.API.Controllers
                 newAppointment = appointmentFromRepo;
                 try
                 {
-                    newAppointment.AppointmentId = appointmentId;
+                    newAppointment.AppointmentId = oldAppointment.AppointmentId;
                     //newAppointment.PatientId = oldAppointment.PatientId;
                     //newAppointment.PhysicianId = oldAppointment.PhysicianId;
                     //newAppointment.Reason = oldAppointment.Reason;
                     //newAppointment.TimeSlot = oldAppointment.TimeSlot;
                     //newAppointment.Duration = oldAppointment.Duration;
-                    newAppointment.Status = true; // Accepting Appointment here
+                    newAppointment.Status = "Active"; // Accepting Appointment here
                     //newAppointment.IsActive = oldAppointment.IsActive;
                     //newAppointment.CreatedBy = oldAppointment.CreatedBy;
                     //newAppointment.CreatedDate = oldAppointment.CreatedDate;
-                    newAppointment.UpdatedBy = oldAppointment.UpdatedBy;
-                    newAppointment.UpdatedDate = DateTime.Now;
+                    newAppointment.ModifiedBy = oldAppointment.ModifiedBy;
+                    newAppointment.ModifiedDate = DateTime.Now;
+                    // newAppointment.SlotDate = DateTime.Now;
 
-                    if (_appointmentSchedulerService.AcceptAppointment(newAppointment))
+                    if (_appointmentSchedulerService.UpdateAppointment(newAppointment))
                         return true;
                     else
                     {
@@ -120,12 +166,48 @@ namespace AppointmentScheduler.Service.API.Controllers
                 return false;
         }
 
-        //[HttpPut("{id}")]
-        //public bool AcceptAppointment(int id, Appointment appointment)
-        //{
-        //    // var data = _appointmentSchedulerService.UpdateAppointment(id, appointment);
-        //    // return data;
-        //}
+        [HttpPut]
+        [Route("RejectAppointment/{appointmentId}")]
+        public bool RejectAppointment(int appointmentId, Appointment oldAppointment)
+        {
+            var appointmentFromRepo = _appointmentSchedulerService.GetEntityByAppointmentId(appointmentId);
+
+            if (ModelState.IsValid)
+            {
+                var newAppointment = new Appointment();
+                newAppointment = appointmentFromRepo;
+                try
+                {
+                    newAppointment.AppointmentId = appointmentId;
+                    //newAppointment.PatientId = oldAppointment.PatientId;
+                    //newAppointment.PhysicianId = oldAppointment.PhysicianId;
+                    //newAppointment.Reason = oldAppointment.Reason;
+                    //newAppointment.TimeSlot = oldAppointment.TimeSlot;
+                    //newAppointment.Duration = oldAppointment.Duration;
+                    newAppointment.Status = "Declined"; // Accepting Appointment here
+                    //newAppointment.IsActive = oldAppointment.IsActive;
+                    //newAppointment.CreatedBy = oldAppointment.CreatedBy;
+                    //newAppointment.CreatedDate = oldAppointment.CreatedDate;
+                    newAppointment.ModifiedBy = oldAppointment.ModifiedBy;
+                    newAppointment.ModifiedDate = DateTime.Now;
+                    // newAppointment.SlotDate = DateTime.Now;
+
+                    if (_appointmentSchedulerService.UpdateAppointment(newAppointment))
+                        return true;
+                    else
+                    {
+                        return false;
+                    }
+                }
+                catch (Exception exception)
+                {
+                    // return exception.Message;
+                    return false;
+                }
+            }
+            else
+                return false;
+        }
     }
 
     //[HttpPut("{id}")]

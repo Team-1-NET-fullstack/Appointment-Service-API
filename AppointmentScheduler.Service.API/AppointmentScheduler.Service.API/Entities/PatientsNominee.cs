@@ -9,16 +9,16 @@ namespace AppointmentScheduler.Service.API.Entities
     {
         public int NomineeId { get; set; }
         public int PatientId { get; set; }
+        public string Title { get; set; }
         public string FirstName { get; set; }
-        public string LastName { get; set; }
         public string EmailId { get; set; }
         public string Relationship { get; set; }
-        public int ContactNumber { get; set; }
+        public string ContactNumber { get; set; }
+        public string NomineeAddress { get; set; }
+        public DateTime InsertDate { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         public int UpdatedBy { get; set; }
         public DateTime UpdatedDate { get; set; }
-        public bool HasAccess { get; set; }
-        public string NomineeAddress { get; set; }
     }
 }

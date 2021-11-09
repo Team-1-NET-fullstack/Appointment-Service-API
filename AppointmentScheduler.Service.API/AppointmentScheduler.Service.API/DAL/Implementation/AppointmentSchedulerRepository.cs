@@ -63,20 +63,37 @@ namespace AppointmentScheduler.Service.API.DAL.Implementation
                     PatientId = e.PatientId,
                     PhysicianId = e.PhysicianId,
                     Reason = e.Reason,
-                    TimeSlot = e.TimeSlot,
-                    Duration = e.Duration,
                     Status = e.Status,
                     IsActive = e.IsActive,
                     CreatedBy = e.CreatedBy,
                     CreatedDate = e.CreatedDate,
-                    UpdatedBy = e.UpdatedBy,
-                    UpdatedDate = e.UpdatedDate,
+                    ModifiedBy = e.ModifiedBy,
+                    ModifiedDate = e.ModifiedDate,
                     PhysicianName = _context.Users.Where(a => a.UserId == e.PhysicianId).Select(e => e.FirstName + " " + e.LastName).FirstOrDefault(),
                     PatientName = _context.Users.Where(a => a.UserId == e.PatientId).Select(e => e.FirstName + " " + e.LastName).FirstOrDefault(),
-                    PhysicianEmployeeId = _context.Users.Where(a => a.UserId == e.PhysicianId).Select(e => e.EmployeeId).FirstOrDefault(),
+                    EmployeeId = _context.Users.Where(a => a.UserId == e.PhysicianId).Select(e => e.EmployeeId).FirstOrDefault(),
                 }).ToList();
 
             return appointmentsList;
+        }
+
+        public IEnumerable<UserModel> GetAllUsers(int roleId)
+        {
+            var list = (from u in _context.Users
+                        where u.RoleId == roleId
+                        select new UserModel
+                        {
+                            Title = u.Title,
+                            UserId = u.UserId,
+                            FirstName = u.FirstName,
+                            LastName = u.LastName,
+                            EmployeeId = (int)u.EmployeeId,
+                            RoleId = u.RoleId,
+                            IsActive = u.IsActive,
+                            IsBlocked = u.IsBlocked,
+                            CreatedDate = u.CreatedDate
+                        }).ToList();
+            return list;
         }
 
 
@@ -97,17 +114,15 @@ namespace AppointmentScheduler.Service.API.DAL.Implementation
                     PatientId = e.PatientId,
                     PhysicianId = e.PhysicianId,
                     Reason = e.Reason,
-                    TimeSlot = e.TimeSlot,
-                    Duration = e.Duration,
                     Status = e.Status,
                     IsActive = e.IsActive,
                     CreatedBy = e.CreatedBy,
                     CreatedDate = e.CreatedDate,
-                    UpdatedBy = e.UpdatedBy,
-                    UpdatedDate = e.UpdatedDate,
+                    ModifiedBy = e.ModifiedBy,
+                    ModifiedDate = e.ModifiedDate,
                     PhysicianName = _context.Users.Where(a => a.UserId == e.PhysicianId).Select(e => e.FirstName + " " + e.LastName).FirstOrDefault(),
                     PatientName = _context.Users.Where(a => a.UserId == e.PatientId).Select(e => e.FirstName + " " + e.LastName).FirstOrDefault(),
-                    PhysicianEmployeeId = _context.Users.Where(a => a.UserId == e.PhysicianId).Select(e => e.EmployeeId).FirstOrDefault(),
+                    EmployeeId = _context.Users.Where(a => a.UserId == e.PhysicianId).Select(e => e.EmployeeId).FirstOrDefault(),
                 }).Where(s => s.AppointmentId == Id).FirstOrDefault();
 
             return appointmentData;

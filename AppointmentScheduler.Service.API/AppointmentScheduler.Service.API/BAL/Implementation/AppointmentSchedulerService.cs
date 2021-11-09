@@ -45,6 +45,19 @@ namespace AppointmentScheduler.Service.API.BAL.Service
             }
         }
 
+        public IEnumerable<UserModel> GetAllUsers(int roleId)
+        {
+            try
+            {
+                return _appointment.GetAllUsers(roleId).ToList();
+            }
+            catch (Exception exception)
+            {
+                // return exception.Message;
+                throw;
+            }
+        }
+
         public Appointment GetEntityByAppointmentId(int Id)
         {
             try
@@ -81,7 +94,7 @@ namespace AppointmentScheduler.Service.API.BAL.Service
             return true;
         }
 
-        public bool AcceptAppointment(Appointment appointment)
+        public bool UpdateAppointment(Appointment appointment)
         {
             _appointment.Update(appointment);
             return true;

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-#nullable disable
-
-namespace AppointmentScheduler.Service.API.Entities
+namespace AppointmentScheduler.Service.API.Models
 {
-    public partial class User
+    public class UserModel
     {
         public int UserId { get; set; }
         public string Title { get; set; }
@@ -14,7 +14,6 @@ namespace AppointmentScheduler.Service.API.Entities
         public string EmailId { get; set; }
         public DateTime Dob { get; set; }
         public int? EmployeeId { get; set; }
-        public byte[] Password { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public int RoleId { get; set; }

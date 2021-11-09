@@ -10,9 +10,5 @@ namespace AppointmentScheduler.Service.API.Entities
         public int AllergyMastersId { get; set; }
         public string Description { get; set; }
         public bool IsFatal { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public int CreatedBy { get; set; }
-        public int UpdatedBy { get; set; }
-        public DateTime UpdatedDate { get; set; }
     }
 }
