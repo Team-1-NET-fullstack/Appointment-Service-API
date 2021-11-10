@@ -80,21 +80,42 @@ namespace AppointmentScheduler.Service.API.DAL.Implementation
             return appointmentsList;
         }
 
+        public IEnumerable<UserModel> GetAllUsersForLogin()
+        {
+            var list = (from u in _context.Users
+                        select new UserModel
+                        {
+                            title = u.Title,
+                            userId = u.UserId,
+                            firstName = u.FirstName,
+                            lastName = u.LastName,
+                            emailId = u.EmailId,
+                            password = u.Password,
+                            employeeId = (int)u.EmployeeId,
+                            roleId = u.RoleId,
+                            isActive = u.IsActive,
+                            isBlocked = u.IsBlocked,
+                            createdDate = u.CreatedDate
+                        }).ToList();
+            return list;
+        }
+
         public IEnumerable<UserModel> GetAllUsers(int roleId)
         {
             var list = (from u in _context.Users
                         where u.RoleId == roleId
                         select new UserModel
                         {
-                            Title = u.Title,
-                            UserId = u.UserId,
-                            FirstName = u.FirstName,
-                            LastName = u.LastName,
-                            EmployeeId = (int)u.EmployeeId,
-                            RoleId = u.RoleId,
-                            IsActive = u.IsActive,
-                            IsBlocked = u.IsBlocked,
-                            CreatedDate = u.CreatedDate
+                            title = u.Title,
+                            userId = u.UserId,
+                            firstName = u.FirstName,
+                            lastName = u.LastName,
+                            emailId = u.EmailId,
+                            employeeId = (int)u.EmployeeId,
+                            roleId = u.RoleId,
+                            isActive = u.IsActive,
+                            isBlocked = u.IsBlocked,
+                            createdDate = u.CreatedDate
                         }).ToList();
             return list;
         }
@@ -135,11 +156,7 @@ namespace AppointmentScheduler.Service.API.DAL.Implementation
         {
             try
             {
-                // var obj = GetEntityById(_object.AppointmentId);
-
                 _context.Entry(_object).State = EntityState.Modified;
-
-                // obj;
 
                 _context.SaveChanges();
             }
@@ -158,67 +175,27 @@ namespace AppointmentScheduler.Service.API.DAL.Implementation
             // return true;
         }
 
-        //public Task<AppointmentModel> Create(AppointmentModel _object)
-        //{
-        //    var isCreated = false;
+        public IEnumerable<AppointmentModel> GetAllAvailablePhysicians(DateTime startTime)
+        {
+            var appointments = (from a in _context.Appointments
+                                where DateTime.Compare(a.StartTime, (startTime)) == 0 & a.IsActive == true
+                                select a).ToList();
 
-        //    try
-        //    {
-        //        var appointment = new Appointment
-        //        {
-        //            AppointmentId = (int)_object.AppointmentId,
-        //            PatientId = (int)_object.PatientId,
-        //            PhysicianId = (int)_object.PhysicianId,
-        //            Reason = _object.Reason,
-        //            TimeSlot = _object.TimeSlot,
-        //            Duration = (int)_object.Duration,
-        //            Status = (bool)_object.Status,
-        //            CreatedBy = (int)_object.CreatedBy,
-        //            CreatedDate = (DateTime)_object.CreatedDate,
-        //            UpdatedBy = (int)_object.UpdatedBy,
-        //            UpdatedDate = (DateTime)_object.UpdatedDate,
-        //        };
-        //        _context.Appointments.AddAsync(appointment);
-        //        _context.SaveChangesAsync();
+            var allPhysicians = (from u in _context.Users
+                                 where u.RoleId == 2
+                                 select new AppointmentModel
+                                 {
+                                     physicianId = u.UserId,
+                                     physicianName = u.FirstName + ' ' + u.LastName
+                                 }).ToList();
 
-        //        var Physician = _context.Users.FirstOrDefault(a => a.UserId == e.PhysicianId);
-        //        var patient = _context.Users.FirstOrDefault(a => a.UserId == e.PatientId);
-        //        isCreated = true;
-        //        return isCreated;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+            foreach (var a in appointments)
+            {
+                allPhysicians.Remove(allPhysicians.SingleOrDefault(x => x.physicianId == a.PhysicianId));
+            }
 
-        //public void Update(int Id, AppointmentModel _object)
-        //{
-        //    if (Id != _object.AppointmentId)
-        //    {
-        //        return false;
-        //    }
-
-        //    _context.Entry(_object).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException exception)
-        //    {
-        //        if (!AppointmentExists(Id))
-        //        {
-        //            return false;
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return true;
-        //}
+            return allPhysicians;
+        }
 
         private bool AppointmentExists(int id)
         {

@@ -7,23 +7,24 @@ namespace AppointmentScheduler.Service.API.Models
 {
     public class UserModel
     {
-        public int UserId { get; set; }
-        public string Title { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string EmailId { get; set; }
-        public DateTime Dob { get; set; }
-        public int? EmployeeId { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime UpdatedDate { get; set; }
-        public int RoleId { get; set; }
-        public int CreatedBy { get; set; }
-        public int UpdatedBy { get; set; }
-        public bool? IsActive { get; set; }
-        public bool? IsBlocked { get; set; }
-        public bool? IsFirstTimeUser { get; set; }
-        public int? ContactNo { get; set; }
-        public string Gender { get; set; }
-        public int? NoOfWrongAttempts { get; set; }
+        public int userId { get; set; }
+        public string title { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public string emailId { get; set; }
+        public byte[]? password { get; set; }
+        public DateTime dob { get; set; }
+        public int? employeeId { get; set; }
+        public DateTime createdDate { get; set; }
+        public DateTime updatedDate { get; set; }
+        public int roleId { get; set; }
+        public int createdBy { get; set; }
+        public int updatedBy { get; set; }
+        public bool? isActive { get; set; }
+        public bool? isBlocked { get; set; }
+        public bool? isFirstTimeUser { get; set; }
+        public int? contactNo { get; set; }
+        public string gender { get; set; }
+        public int? noOfWrongAttempts { get; set; }
     }
 }

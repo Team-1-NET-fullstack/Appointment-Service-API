@@ -117,6 +117,7 @@ C:\Impact\API\devnew\Appointment-Service-API\AppointmentScheduler.Service.API\Ap
 C:\Impact\API\devnew\Appointment-Service-API\AppointmentScheduler.Service.API\AppointmentScheduler.Service.API\bin\Debug\net5.0\runtimes\win-arm64\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
 C:\Impact\API\devnew\Appointment-Service-API\AppointmentScheduler.Service.API\AppointmentScheduler.Service.API\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 C:\Impact\API\devnew\Appointment-Service-API\AppointmentScheduler.Service.API\AppointmentScheduler.Service.API\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+C:\Impact\API\devnew\Appointment-Service-API\AppointmentScheduler.Service.API\AppointmentScheduler.Service.API\obj\Debug\net5.0\AppointmentScheduler.Service.API.csproj.AssemblyReference.cache
 C:\Impact\API\devnew\Appointment-Service-API\AppointmentScheduler.Service.API\AppointmentScheduler.Service.API\obj\Debug\net5.0\AppointmentScheduler.Service.API.GeneratedMSBuildEditorConfig.editorconfig
 C:\Impact\API\devnew\Appointment-Service-API\AppointmentScheduler.Service.API\AppointmentScheduler.Service.API\obj\Debug\net5.0\AppointmentScheduler.Service.API.AssemblyInfoInputs.cache
 C:\Impact\API\devnew\Appointment-Service-API\AppointmentScheduler.Service.API\AppointmentScheduler.Service.API\obj\Debug\net5.0\AppointmentScheduler.Service.API.AssemblyInfo.cs
@@ -132,4 +133,3 @@ C:\Impact\API\devnew\Appointment-Service-API\AppointmentScheduler.Service.API\Ap
 C:\Impact\API\devnew\Appointment-Service-API\AppointmentScheduler.Service.API\AppointmentScheduler.Service.API\obj\Debug\net5.0\ref\AppointmentScheduler.Service.API.dll
 C:\Impact\API\devnew\Appointment-Service-API\AppointmentScheduler.Service.API\AppointmentScheduler.Service.API\obj\Debug\net5.0\AppointmentScheduler.Service.API.pdb
 C:\Impact\API\devnew\Appointment-Service-API\AppointmentScheduler.Service.API\AppointmentScheduler.Service.API\obj\Debug\net5.0\AppointmentScheduler.Service.API.genruntimeconfig.cache
-C:\Impact\API\devnew\Appointment-Service-API\AppointmentScheduler.Service.API\AppointmentScheduler.Service.API\obj\Debug\net5.0\AppointmentScheduler.Service.API.csproj.AssemblyReference.cache
