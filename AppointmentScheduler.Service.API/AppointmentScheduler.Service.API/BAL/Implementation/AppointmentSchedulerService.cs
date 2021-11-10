@@ -18,7 +18,6 @@ namespace AppointmentScheduler.Service.API.BAL.Service
             _appointment = appointment;
         }
 
-        // Create Appointment
         public async Task<Appointment> CreateAppointment(Appointment appointment)
         {
             try
@@ -37,6 +36,19 @@ namespace AppointmentScheduler.Service.API.BAL.Service
             try
             {
                 return _appointment.GetAll().ToList();
+            }
+            catch (Exception exception)
+            {
+                // return exception.Message;
+                throw;
+            }
+        }
+
+        public IEnumerable<UserModel> GetAllUsersForLogin()
+        {
+            try
+            {
+                return _appointment.GetAllUsersForLogin().ToList();
             }
             catch (Exception exception)
             {
@@ -100,28 +112,9 @@ namespace AppointmentScheduler.Service.API.BAL.Service
             return true;
         }
 
-        ////GET All Appointment Details   
-        //public IEnumerable<AppointmentModel> GetAllAppointments()
-        //{
-        //    
-        //}
-
-        //public Task<bool> CreateAppointment(AppointmentModel appointmentData)
-        //{
-        //    //try
-        //    //{
-        //    //    return _appointment.Create(appointmentData);
-        //    //}
-        //    //catch (Exception exception)
-        //    //{
-        //    //    throw;
-        //    //}
-        //    return null;
-        //}
-
-        //public bool UpdateAppointment(int id, Appointment appointment)
-        //{
-        //    // return _appointment.Update(id,appointment);
-        //}
+        public IEnumerable<AppointmentModel> GetAllAvailablePhysicians(DateTime date)
+        {
+            return _appointment.GetAllAvailablePhysicians(date);
+        }
     }
 }
